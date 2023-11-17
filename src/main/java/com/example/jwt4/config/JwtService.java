@@ -23,7 +23,7 @@ public class JwtService {
     @Value("${application.security.jwt.secret-key}")
     private String secretkey;
     @Value("${application.security.jwt.expiration}")
-    private String jwtExpiraion;
+    private long jwtExpiraion;
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
 
@@ -45,9 +45,14 @@ public class JwtService {
             Map<String, Objects> extractClaims,
             UserDetails userDetails
     ){
-        return buildToken(new HashMap<>(), userDetails, refreshExpiration);
+        return buildToken(new HashMap<>(), userDetails, jwtExpiraion);
     }
 
+    public String genererateRefreshToken(
+            UserDetails userDetails
+    ){
+        return buildToken(new HashMap<>(), userDetails, refreshExpiration);
+    }
 
     public String buildToken(
             Map<String, Objects> extracClaims,
